@@ -579,11 +579,11 @@
     const cantidad = parseInt($cantidad.value, 10) || 1;
     const pct = calcularDescuento(productoActivo, cantidad);
     if (pct > 0){
-      $descHint.textContent = `✓ Descuento: ${pct}% off`;
+      $descHint.innerHTML = `<span class="oferta-activa">🏷️ ${pct}% OFF a aplicar</span>`;
     } else {
       const siguiente = productoActivo.descuentos.find(d => d.desde > cantidad && d.porcentaje > 0);
-      $descHint.textContent = siguiente
-        ? `Llevando ${siguiente.desde} o más: ${siguiente.porcentaje}% off`
+      $descHint.innerHTML = siguiente
+        ? `<span class="oferta-siguiente">Llevando ${siguiente.desde} o más: ${siguiente.porcentaje}% off</span>`
         : '';
     }
   }
