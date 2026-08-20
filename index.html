@@ -466,22 +466,22 @@
         id: "vinos",
         nombre: "Triple Obra Prima (3 Botellas)",
         variantes: ["Surtido"],
-        precio: 35000,
+        precio: 46667,
         descuentos: [
-          { desde: 1, hasta: 5, porcentaje: 0 },
-          { desde: 6, hasta: 11, porcentaje: 0 },
-          { desde: 12, hasta: 9999, porcentaje: 0 }
+          { desde: 1, hasta: 5, porcentaje: 25 },
+          { desde: 6, hasta: 11, porcentaje: 25 },
+          { desde: 12, hasta: 9999, porcentaje: 25 }
         ]
       },
 {
         id: "vinos",
         nombre: "Exploración Sur Caja (6 Botellas)",
         variantes: ["Malbec", "Cabernet Sauvignon"],
-        precio: 54000,
+        precio: 83077,
         descuentos: [
-          { desde: 1, hasta: 2, porcentaje: 0 },
-          { desde: 3, hasta: 5, porcentaje: 0 },
-          { desde: 6, hasta: 9999, porcentaje: 0 }
+          { desde: 1, hasta: 2, porcentaje: 35 },
+          { desde: 3, hasta: 5, porcentaje: 35 },
+          { desde: 6, hasta: 9999, porcentaje: 35 }
         ]
       },
       {
@@ -615,7 +615,7 @@
     $totalVal.textContent = formatoPesos(total);
 
     if (ahorroTotal > 0){
-      $ahorroNota.textContent = `Ahorrás ${formatoPesos(ahorroTotal)} por cantidad`;
+      $ahorroNota.textContent = `Ahorrás ${formatoPesos(ahorroTotal)} `;
       $stamp.style.display = 'flex';
       const pctPromedio = Math.round((ahorroTotal / (total + ahorroTotal)) * 100);
       $stamp.innerHTML = `<span>${pctPromedio}%</span><span>OFF</span>`;
