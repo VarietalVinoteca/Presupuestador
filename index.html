@@ -119,6 +119,14 @@
     border-color: var(--pine);
     color: var(--paper);
   }
+  .producto-btn{ align-items: center; }
+  .foto-producto{
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+  }
   .producto-btn .nombre{ font-weight: 600; font-size: 14.5px; }
   .producto-btn .precio{
     font-family:'IBM Plex Mono', monospace;
@@ -454,6 +462,7 @@
       {
         id: "vinos",
         nombre: "By the Glass Las Perdices",
+        imagen: "bibPerdices.png",
         variantes: ["Malbec 3 Litros"],
         precio: 28500,
         descuentos: [
@@ -465,6 +474,7 @@
 {
         id: "vinos",
         nombre: "Triple Obra Prima (3 Botellas)",
+        imagen: "obraprima.png",
         variantes: ["Surtido"],
         precio: 46667,
         descuentos: [
@@ -476,6 +486,7 @@
 {
         id: "vinos",
         nombre: "Exploración Sur Caja (6 Botellas)",
+        imagen: "exploracionsur.png",
         variantes: ["Malbec", "Cabernet Sauvignon"],
         precio: 83077,
         descuentos: [
@@ -487,6 +498,7 @@
       {
         id: "vinos",
         nombre: "Don Juan Blend (4 Botellas)",
+        imagen: "donjuan.png",
         variantes: ["Blend"],
         precio: 116000,
         descuentos: [
@@ -528,7 +540,8 @@
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'producto-btn' + (p.id === productoActivo.id ? ' activo' : '');
-      btn.innerHTML = `<span class="nombre">${p.nombre}</span><span class="precio">${formatoPesos(p.precio)}</span>`;
+      btn.innerHTML = const imgTag = p.imagen ? `<img src="${p.imagen}" alt="${p.nombre}" class="foto-producto">` : '';
+btn.innerHTML = `${imgTag}<span class="nombre">${p.nombre}</span><span class="precio">${formatoPesos(p.precio)}</span>`;
       btn.addEventListener('click', () => {
         productoActivo = p;
         varianteActiva = p.variantes[0] || null;
@@ -688,4 +701,3 @@
 
 </body>
 </html>
-
