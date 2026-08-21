@@ -161,40 +161,42 @@
     display:flex;
     align-items:center;
     justify-content: space-between;
-    margin-top: 16px;
+    margin-top: 18px;
     gap: 12px;
   }
   .cantidad-row .label{
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 14.5px;
+    font-weight: 600;
     color: var(--pine);
   }
   .stepper{
     display:flex;
     align-items:center;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
+    border: 2px solid var(--pine);
+    border-radius: 8px;
     overflow:hidden;
     background: var(--white);
   }
   .stepper button{
-    width: 36px; height: 36px;
+    width: 48px; height: 48px;
     border:none;
     background: transparent;
-    font-size: 18px;
+    font-size: 24px;
+    font-weight: 600;
     cursor:pointer;
     color: var(--pine);
   }
   .stepper button:hover{ background: var(--paper-2); }
   .stepper input{
-    width: 44px;
+    width: 56px;
     text-align:center;
     border: none;
-    border-left: 1px solid var(--line);
-    border-right: 1px solid var(--line);
-    height: 36px;
+    border-left: 2px solid var(--pine);
+    border-right: 2px solid var(--pine);
+    height: 48px;
     font-family:'IBM Plex Mono', monospace;
-    font-size: 14px;
+    font-size: 18px;
+    font-weight: 600;
     background: transparent;
   }
   .stepper input:focus{ outline: 2px solid var(--mustard-dark); outline-offset: -2px; }
@@ -605,7 +607,7 @@
     const cantidad = parseInt($cantidad.value, 10) || 1;
     const pct = calcularDescuento(productoActivo, cantidad);
     if (pct > 0){
-      $descHint.innerHTML = `<span class="oferta-activa">🏷️ ${pct}% OFF </span>`;
+      $descHint.innerHTML = `<span class="oferta-activa">🏷️ ${pct}% OFF para aplicar</span>`;
     } else {
       const siguiente = productoActivo.descuentos.find(d => d.desde > cantidad && d.porcentaje > 0);
       $descHint.innerHTML = siguiente
@@ -727,4 +729,3 @@
 
 </body>
 </html>
-
