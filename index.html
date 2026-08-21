@@ -291,7 +291,7 @@
   .item-row{
     display:flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     gap: 10px;
     font-family:'IBM Plex Mono', monospace;
     font-size: 13px;
@@ -308,15 +308,25 @@
     font-weight: 600;
   }
   .item-row .quitar{
-    background:none;
-    border:none;
-    color: #999;
-    cursor:pointer;
-    font-size: 15px;
-    padding: 0 2px;
+    background: rgba(166,61,49,0.1);
+    border: none;
+    color: var(--stamp-red);
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 700;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
     line-height: 1;
+    transition: background .15s ease;
   }
-  .item-row .quitar:hover{ color: var(--stamp-red); }
+  .item-row .quitar:hover{ background: rgba(166,61,49,0.22); }
+  .item-row .quitar:active{ background: rgba(166,61,49,0.32); }
 
   .total-row{
     display:flex;
@@ -513,7 +523,7 @@
       },
 {
         id: "exploracion",
-        nombre: "Expedición Sur Caja (6 Botellas)",
+        nombre: "Exploración Sur Caja (6 Botellas)",
         imagen: "exploracionsur.png",
         variantes: ["Malbec", "Cabernet Sauvignon"],
         precio: 83077,
@@ -607,7 +617,7 @@
     const cantidad = parseInt($cantidad.value, 10) || 1;
     const pct = calcularDescuento(productoActivo, cantidad);
     if (pct > 0){
-      $descHint.innerHTML = `<span class="oferta-activa">🏷️ ${pct}% OFF para aplicar</span>`;
+      $descHint.innerHTML = `<span class="oferta-activa">🏷️ ${pct}% OFF a aplicar</span>`;
     } else {
       const siguiente = productoActivo.descuentos.find(d => d.desde > cantidad && d.porcentaje > 0);
       $descHint.innerHTML = siguiente
@@ -729,3 +739,4 @@
 
 </body>
 </html>
+
