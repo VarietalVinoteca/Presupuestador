@@ -2161,21 +2161,21 @@
         nombre: "GIN BEEFEATER BLACKBERRY X 700",
         variantes: [],
         precio: 42070,
-        descuentos: [{ desde: 3, hasta: 9999, porcentaje: 15 }]
+        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 0 }]
       },
       {
         id: "gin-beefeater-blood-orange-x-700-208",
         nombre: "GIN BEEFEATER BLOOD ORANGE X 700",
         variantes: [],
         precio: 42070,
-        descuentos: [{ desde: 3, hasta: 9999, porcentaje: 15 }]
+        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 0 }]
       },
       {
         id: "gin-beefeater-pink-x-700-209",
         nombre: "GIN BEEFEATER PINK X 700",
         variantes: [],
         precio: 42070,
-        descuentos: [{ desde: 3, hasta: 9999, porcentaje: 15 }]
+        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 0 }]
       },
       {
         id: "rutini-pinot-noir-x-750-210",
@@ -2189,7 +2189,7 @@
         nombre: "GIN BEEFEATER X 1LITRO",
         variantes: [],
         precio: 42040,
-        descuentos: [{ desde: 3, hasta: 9999, porcentaje: 15 }]
+        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 0 }]
       },
       {
         id: "catena-dv-adrianna-malbec-x-750-212",
@@ -2511,7 +2511,7 @@
         nombre: "GIN BEEFEATER X 700",
         variantes: [],
         precio: 35400,
-        descuentos: [{ desde: 3, hasta: 9999, porcentaje: 15 }]
+        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 0 }]
       },
       {
         id: "luigi-bosca-rose-x-750-258",
@@ -2945,7 +2945,7 @@
         nombre: "RON HAVANA DORADO X 750",
         variantes: [],
         precio: 23890,
-        descuentos: [{ desde: 3, hasta: 9999, porcentaje: 15 }]
+        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 0 }]
       },
       {
         id: "catena-dv-cabernet-x-750-320",
@@ -2994,7 +2994,7 @@
         nombre: "RON HAVANA BLANCO X 750",
         variantes: [],
         precio: 22360,
-        descuentos: [{ desde: 3, hasta: 9999, porcentaje: 15 }]
+        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 0 }]
       },
       {
         id: "el-esteco-old-vines-cab-sauv-x-750-327",
@@ -3085,7 +3085,7 @@
         nombre: "LUIGI BOSCA MALBEC X 750",
         variantes: [],
         precio: 22070,
-        descuentos: [{ desde: 6, hasta: 9999, porcentaje: 20 }]
+        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 0 }]
       },
       {
         id: "luigi-bosca-sauv-blanc-x-750-340",
@@ -3169,7 +3169,7 @@
         nombre: "LA LINDA VARIETAL MALBEC X 750",
         variantes: [],
         precio: 13450,
-        descuentos: [{ desde: 6, hasta: 9999, porcentaje: 15 }]
+        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 0 }]
       },
       {
         id: "el-esteco-champenoise-x-750-352",
@@ -4309,15 +4309,15 @@
         id: "expedicion-sur-cabernet-sauv-x-750-514",
         nombre: "EXPEDICION SUR CABERNET SAUV X 750",
         variantes: [],
-        precio: 12490,
-        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 20 }]
+        precio: 14000,
+        descuentos: [{ desde: 6, hasta: 9999, porcentaje: 35 }]
       },
       {
         id: "expedicion-sur-malbec-x-750-515",
         nombre: "EXPEDICION SUR MALBEC X 750",
         variantes: [],
-        precio: 12490,
-        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 20 }]
+        precio: 14000,
+        descuentos: [{ desde: 6, hasta: 9999, porcentaje: 35 }]
       },
       {
         id: "expedicion-sur-pinot-noir-x-750-516",
@@ -5997,7 +5997,7 @@
     const cantidad = parseInt($cantidad.value, 10) || 1;
     const pct = calcularDescuento(productoActivo, cantidad);
     if (pct > 0){
-      $descHint.innerHTML = `<span class="oferta-activa">🏷️ ${pct}% OFF Promo aplicado</span>`;
+      $descHint.innerHTML = `<span class="oferta-activa">🏷️ ${pct}% OFF Promo Aplicado</span>`;
     } else {
       const siguiente = productoActivo.descuentos.find(d => d.desde > cantidad && d.porcentaje > 0);
       $descHint.innerHTML = siguiente
