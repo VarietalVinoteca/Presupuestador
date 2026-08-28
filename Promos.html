@@ -158,9 +158,12 @@
     display:flex;
     flex-direction:column;
     gap: 8px;
-    max-height: 260px; /* altura para 4 productos aprox */
+    max-height: 260px;
     overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     padding-right: 4px;
+    overscroll-behavior-y: contain;
   }
   /* Scrollbar estilizada */
   .productos::-webkit-scrollbar{
@@ -886,9 +889,14 @@
   }
 
   // Click en "Ver más"
-  $verMasBtn.addEventListener('click', () => {
+  $verMasBtn.addEventListener('click', (e) => {
+    e.preventDefault();
     mostrarTodos = true;
     renderProductos();
+    // En mobile, scrollear suavemente al primer producto nuevo
+    setTimeout(() => {
+      $productos.scrollTop = $productos.scrollHeight;
+    }, 50);
   });
 
   $buscador.addEventListener('input', () => {
