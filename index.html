@@ -158,10 +158,30 @@
     display:flex;
     flex-direction:column;
     gap: 8px;
-    max-height: 360px;
+    max-height: 260px;
     overflow-y: auto;
-    padding-right: 2px;
+    padding-right: 4px;
   }
+  .productos::-webkit-scrollbar{ width: 6px; }
+  .productos::-webkit-scrollbar-track{ background: transparent; }
+  .productos::-webkit-scrollbar-thumb{ background: var(--line); border-radius: 3px; }
+  .ver-mas-btn{
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background: transparent;
+    border: 1.5px dashed var(--line);
+    border-radius: var(--radius);
+    color: var(--pine);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all .15s ease;
+  }
+  .ver-mas-btn:hover{ border-color: var(--pine); background: var(--white); }
+  .ver-mas-btn.oculto{ display: none; }
   .sin-resultados{
     text-align: center;
     font-size: 13px;
@@ -605,6 +625,7 @@
     </div>
     <div class="productos" id="productos"></div>
     <div class="sin-resultados" id="sinResultados" style="display:none;">No encontramos productos con ese nombre</div>
+    <button type="button" class="ver-mas-btn" id="verMasBtn">↓ Ver más productos</button>
 
     <div class="variantes" id="variantes" style="display:none;"></div>
 
@@ -5856,9 +5877,11 @@
   };
   /* ================== FIN CONFIGURACIÓN ================== */
 
+  const PRODUCTOS_VISIBLE_INICIAL = 4;
   let productoActivo = CONFIG.productos[0];
   let varianteActiva = productoActivo.variantes[0] || null;
   let cart = [];
+  let mostrarTodos = false;
 
   const $productos = document.getElementById('productos');
   const $buscador = document.getElementById('buscador');
@@ -5873,6 +5896,7 @@
   const $combinadoInfo = document.getElementById('combinadoInfo');
   const $stamp = document.getElementById('stamp');
   const $enviarBtn = document.getElementById('enviarBtn');
+  const $verMasBtn = document.getElementById('verMasBtn');
 
   function formatoPesos(n){
     return '$' + Math.round(n).toLocaleString('es-AR');
@@ -5905,7 +5929,12 @@
     $productos.innerHTML = '';
     $sinResultados.style.display = lista.length ? 'none' : 'block';
 
-    lista.forEach(p => {
+    const hayBusqueda = termino.length > 0;
+    const limite = (hayBusqueda || mostrarTodos) ? lista.length : PRODUCTOS_VISIBLE_INICIAL;
+    const visibles = lista.slice(0, limite);
+    const ocultos = lista.slice(limite);
+
+    visibles.forEach(p => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'producto-btn' + (p.id === productoActivo.id ? ' activo' : '');
@@ -5922,9 +5951,24 @@
       });
       $productos.appendChild(btn);
     });
+
+    if (hayBusqueda || mostrarTodos || ocultos.length === 0) {
+      $verMasBtn.classList.add('oculto');
+    } else {
+      $verMasBtn.classList.remove('oculto');
+      $verMasBtn.textContent = `↓ Ver ${ocultos.length} producto${ocultos.length > 1 ? 's' : ''} más`;
+    }
   }
 
-  $buscador.addEventListener('input', renderProductos);
+  $verMasBtn.addEventListener('click', () => {
+    mostrarTodos = true;
+    renderProductos();
+  });
+
+  $buscador.addEventListener('input', () => {
+    mostrarTodos = false;
+    renderProductos();
+  });
   $orden.addEventListener('change', renderProductos);
 
 
