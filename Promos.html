@@ -158,6 +158,20 @@
     display:flex;
     flex-direction:column;
     gap: 8px;
+    max-height: 260px; /* altura para 4 productos aprox */
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+  /* Scrollbar estilizada */
+  .productos::-webkit-scrollbar{
+    width: 6px;
+  }
+  .productos::-webkit-scrollbar-track{
+    background: transparent;
+  }
+  .productos::-webkit-scrollbar-thumb{
+    background: var(--line);
+    border-radius: 3px;
   }
   .sin-resultados{
     text-align: center;
@@ -179,6 +193,7 @@
     gap: 10px;
     font-family:'Work Sans', sans-serif;
     transition: border-color .15s ease, background .15s ease;
+    flex-shrink: 0;
   }
   .producto-btn:hover{ border-color: var(--pine-light); }
   .producto-btn.activo{
@@ -200,6 +215,30 @@
     font-size: 11.5px;
     opacity: 0.85;
     flex-shrink: 0;
+  }
+
+  /* Botón Ver más */
+  .ver-mas-btn{
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background: transparent;
+    border: 1.5px dashed var(--line);
+    border-radius: var(--radius);
+    color: var(--pine);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all .15s ease;
+  }
+  .ver-mas-btn:hover{
+    border-color: var(--pine);
+    background: var(--white);
+  }
+  .ver-mas-btn.oculto{
+    display: none;
   }
 
   .variantes{
@@ -566,6 +605,8 @@
     </div>
     <div class="productos" id="productos"></div>
     <div class="sin-resultados" id="sinResultados" style="display:none;">No encontramos productos con ese nombre</div>
+    <!-- Botón Ver más -->
+    <button type="button" class="ver-mas-btn" id="verMasBtn">↓ Ver más productos</button>
 
     <div class="variantes" id="variantes" style="display:none;"></div>
 
@@ -758,9 +799,12 @@
   };
   /* ================== FIN CONFIGURACIÓN ================== */
 
+  const PRODUCTOS_VISIBLE_INICIAL = 4;  // ← Cantidad de productos visibles al cargar
+
   let productoActivo = CONFIG.productos[0];
   let varianteActiva = productoActivo.variantes[0] || null;
   let cart = [];
+  let mostrarTodos = false;  // ← Estado: ¿se muestran todos los productos?
 
   const $productos = document.getElementById('productos');
   const $buscador = document.getElementById('buscador');
@@ -774,6 +818,7 @@
   const $ahorroNota = document.getElementById('ahorroNota');
   const $stamp = document.getElementById('stamp');
   const $enviarBtn = document.getElementById('enviarBtn');
+  const $verMasBtn = document.getElementById('verMasBtn');
 
   function formatoPesos(n){
     return '$' + Math.round(n).toLocaleString('es-AR');
@@ -806,7 +851,14 @@
     $productos.innerHTML = '';
     $sinResultados.style.display = lista.length ? 'none' : 'block';
 
-    lista.forEach(p => {
+    // Si hay búsqueda activa, mostramos TODOS los resultados
+    // Si no hay búsqueda, mostramos solo los primeros N o todos si se apretó "Ver más"
+    const hayBusqueda = termino.length > 0;
+    const limite = (hayBusqueda || mostrarTodos) ? lista.length : PRODUCTOS_VISIBLE_INICIAL;
+    const visibles = lista.slice(0, limite);
+    const ocultos = lista.slice(limite);
+
+    visibles.forEach(p => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'producto-btn' + (p.id === productoActivo.id ? ' activo' : '');
@@ -823,9 +875,27 @@
       });
       $productos.appendChild(btn);
     });
+
+    // Mostrar u ocultar el botón "Ver más"
+    if (hayBusqueda || mostrarTodos || ocultos.length === 0) {
+      $verMasBtn.classList.add('oculto');
+    } else {
+      $verMasBtn.classList.remove('oculto');
+      $verMasBtn.textContent = `↓ Ver ${ocultos.length} producto${ocultos.length > 1 ? 's' : ''} más`;
+    }
   }
 
-  $buscador.addEventListener('input', renderProductos);
+  // Click en "Ver más"
+  $verMasBtn.addEventListener('click', () => {
+    mostrarTodos = true;
+    renderProductos();
+  });
+
+  $buscador.addEventListener('input', () => {
+    // Al buscar, reseteamos el estado de "ver más" para que filtre bien
+    mostrarTodos = false;
+    renderProductos();
+  });
   $orden.addEventListener('change', renderProductos);
 
   function renderVariantes(){
