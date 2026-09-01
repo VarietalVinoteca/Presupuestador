@@ -90,6 +90,43 @@
   }
   .link-cruzado:hover{ background: var(--mustard-dark); }
 
+  .error-conexion{
+    max-width: 460px;
+    margin: 40px auto;
+    background: var(--paper);
+    border-radius: var(--radius);
+    padding: 36px 24px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  }
+  .error-emoji{ font-size: 40px; margin-bottom: 10px; }
+  .error-titulo{
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 17px;
+    color: var(--pine);
+    margin: 0 0 10px;
+  }
+  .error-texto{
+    font-size: 13.5px;
+    color: var(--ink);
+    opacity: 0.8;
+    line-height: 1.5;
+    margin: 0 0 20px;
+  }
+  .error-whatsapp-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #25D366;
+    color: #08341c;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 22px;
+    border-radius: var(--radius);
+  }
+  .error-whatsapp-btn:hover{ background: #21bd5c; }
+
   .card{
     background: var(--paper);
     border-radius: var(--radius);
@@ -595,6 +632,15 @@
     <a href="index.html" class="link-cruzado">📋 Ver catálogo completo →</a>
   </header>
 
+  <div class="error-conexion" id="errorConexion" style="display:none;">
+    <div class="error-emoji">😕</div>
+    <p class="error-titulo">No pudimos cargar el catálogo</p>
+    <p class="error-texto">Puede ser un problema momentáneo de conexión. Volvé a intentarlo en unos minutos, o escribinos directo y te ayudamos con tu pedido.</p>
+    <a href="#" id="errorWhatsappBtn" class="error-whatsapp-btn" target="_blank">Escribinos por WhatsApp</a>
+  </div>
+
+  <div id="appContent">
+
   <!-- Selección de producto -->
   <section class="card">
     <h2>1. Elegí el producto</h2>
@@ -664,6 +710,8 @@
   </button>
 
   <p class="foot-note">Al enviar, confirmás el pedido según este presupuesto</p>
+
+  </div><!-- /appContent -->
 </div>
 
 <script>
@@ -677,135 +725,27 @@
     // Número de WhatsApp con código de país y de área, SIN el "+" ni espacios
     // Ejemplo Córdoba, Argentina: 54 9 351 1234567 -> "5493511234567"
     telefono: "5493515089742",
-    productos: [
-        {
-        id: "perdices",
-        nombre: "By the Glass Las Perdices Malbec 3 Litros",
-        imagen: "bib-perdices.png",
-        variantes: [],
-        precio: 28500,
-        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 20 }]
-      },
-{
-        id: "obra",
-        nombre: "Triple Obra Prima Mix",
-        imagen: "obraprima.png",
-        variantes: [],
-        precio: 46667,
-        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 25 }]
-      },
-{
-        id: "expedición",
-        nombre: "Expedición Sur Malbec 750",
-        imagen: "exploracionsur.png",
-        variantes: [],
-        precio: 14000,
-        descuentos: [{ desde: 6, hasta: 9999, porcentaje: 35 }]
-      },
-      {
-        id: "vinos",
-        nombre: "Don Juan Blend (4 Botellas)",
-        imagen: "donjuan.png",
-        variantes: [],
-        precio: 116000,
-        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 25 }]
-      },
-      {
-        id: "luigi",
-        nombre: "Luigi Bosca Malbec 750cc",
-        imagen: "luigimalbec.png",
-        variantes: [],
-        precio: 22070,
-        descuentos: [{ desde: 6, hasta: 9999, porcentaje: 20 }]
-      },
-      {
-        id: "linda",
-        nombre: "La Linda Malbec 750cc",
-        imagen: "lalinda.png",
-        variantes: [],
-        precio: 13450,
-        descuentos: [{ desde: 6, hasta: 9999, porcentaje: 20 }]
-      },
-      {
-        id: "havana",
-        nombre: "Ron Havana 750cc",
-        imagen: "havana.png",
-        variantes: [], 
-        precio: 23000,
-        descuentos: [{ desde: 3, hasta: 9999, porcentaje: 15 }]
-      },
-      {
-        id: "club",
-        nombre: "Ron Havana Club 7 Años 750cc",
-        imagen: "havana7.png",
-        variantes: [],
-        precio: 52420,
-        descuentos: [{ desde: 3, hasta: 9999, porcentaje: 15 }]
-      },
-      {
-        id: "beefeatear",
-        nombre: "Gin Beefeater 750cc",
-        imagen: "beefeater.png",
-        variantes: [],
-        precio: 35400,
-        descuentos: [{ desde: 3, hasta: 9999, porcentaje: 15 }]
-      },
-      {
-        id: "campari",
-        nombre: "Campari 750cc",
-        imagen: "campari.png",
-        variantes: [],
-        precio: 14170,
-        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 10 }]
-      },
-      {
-        id: "aperol",
-        nombre: "Aperol 750cc",
-        imagen: "aperol.png",
-        variantes: [],
-        precio: 14170,
-        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 10 }]
-      },
-      {
-        id: "glenlivet",
-        nombre: "The Glenlivet 12 años",
-        imagen: "glenlivet.png",
-        variantes: [],
-        precio: 114670,
-        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 10 }]
-      },
-      {
-        id: "chivas",
-        nombre: "Chivas Regal 12 años",
-        imagen: "chivas12.png",
-        variantes: [],
-        precio: 80640,
-        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 25 }]
-      },
-      {
-        id: "jameson",
-        nombre: "Whisky Jameson x 700cc",
-        imagen: "jameson.png",
-        variantes: [],
-        precio: 34980,
-        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 25 }]
-      },
-      {
-        id: "royal",
-        nombre: "Chivas Regal Royal Salute 21 Años 750cc",
-        imagen: "royalsalute.png",
-        variantes: [],
-        precio: 464000,
-        descuentos: [{ desde: 1, hasta: 9999, porcentaje: 20 }]
-      }
-    ]
+
+    // OPCIONAL: pegá acá el link de tu Google Sheet publicada como CSV
+    // (Archivo > Compartir > Publicar en la web > pestaña correcta >
+    // formato CSV > Publicar). Si lo dejás vacío (""), se usan los
+    // productos de más abajo como respaldo — también si falla la conexión.
+    // Estructura esperada: fila con "BODEGA" en columna A marca el
+    // encabezado, datos desde la fila siguiente. Columnas: A=Bodega
+    // (no se usa acá, pero no molesta si está), B=Producto, G=Precio,
+    // H=Descuento ("1-5:0|6-11:8|12-9999:15"), I=nombre del archivo
+    // de imagen (ej: "obraprima.png"; vacío = sin foto).
+    sheetUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSJYNP24pSIMYoqxw0yNZCETOLVK-VqGYO8BwMpxLBhcD2yEboe67w7zBfoMtVISoXuqGe0tT2TRWUk/pub?gid=704420851&single=true&output=csv",
+
+    // Productos de respaldo — se usan si sheetUrl está vacío o falla la conexión.
+    productos: []
   };
   /* ================== FIN CONFIGURACIÓN ================== */
 
   const PRODUCTOS_VISIBLE_INICIAL = 4;  // ← Cantidad de productos visibles al cargar
 
-  let productoActivo = CONFIG.productos[0];
-  let varianteActiva = productoActivo.variantes[0] || null;
+  let productoActivo = null;
+  let varianteActiva = null;
   let cart = [];
   let mostrarTodos = false;  // ← Estado: ¿se muestran todos los productos?
 
@@ -1093,10 +1033,106 @@
     window.open(url, '_blank');
   });
 
-  renderProductos();
-  renderVariantes();
-  renderDescHint();
-  renderTicket();
+  /* ================================================
+     Carga opcional de productos desde Google Sheets
+     ================================================ */
+  function parseCSV(texto){
+    const filas = [];
+    let fila = [], campo = '', entreComillas = false;
+    for (let i = 0; i < texto.length; i++){
+      const c = texto[i];
+      if (entreComillas){
+        if (c === '"'){
+          if (texto[i + 1] === '"'){ campo += '"'; i++; }
+          else entreComillas = false;
+        } else campo += c;
+      } else {
+        if (c === '"') entreComillas = true;
+        else if (c === ','){ fila.push(campo); campo = ''; }
+        else if (c === '\n' || c === '\r'){
+          if (c === '\r' && texto[i + 1] === '\n') i++;
+          fila.push(campo); campo = '';
+          if (fila.length > 1 || fila[0] !== '') filas.push(fila);
+          fila = [];
+        } else campo += c;
+      }
+    }
+    if (campo !== '' || fila.length){ fila.push(campo); filas.push(fila); }
+    return filas;
+  }
+
+  function parseDescuentoSheet(str){
+    if (!str || !str.trim()) return [{ desde: 1, hasta: 9999, porcentaje: 0 }];
+    return str.split('|').map(parte => {
+      const [rango, pct] = parte.split(':');
+      const [desde, hasta] = rango.split('-').map(Number);
+      return { desde, hasta, porcentaje: Number(pct) || 0 };
+    });
+  }
+
+  function slugify(nombre, idx){
+    return nombre.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40) + '-' + idx;
+  }
+
+  async function cargarProductosDesdeSheet(url){
+    const resp = await fetch(url, { cache: 'no-store' });
+    if (!resp.ok) throw new Error('No se pudo leer la hoja');
+    const texto = await resp.text();
+    const filas = parseCSV(texto);
+
+    const idxHeader = filas.findIndex(f => (f[0] || '').trim().toUpperCase() === 'BODEGA');
+    if (idxHeader === -1) throw new Error('No se encontró la fila de encabezados (BODEGA en columna A)');
+
+    const productos = filas.slice(idxHeader + 1)
+      .filter(f => f.some(c => (c || '').trim() !== ''))
+      .map((f, i) => {
+        const nombre = (f[1] || '').trim();
+        const precio = Number((f[6] || '0').replace(/[^\d.-]/g, '')) || 0;
+        const descuento = (f[7] || '').trim();
+        const imagen = (f[8] || '').trim();
+        return {
+          id: slugify(nombre || 'producto', i),
+          nombre,
+          variantes: [],
+          precio,
+          descuentos: parseDescuentoSheet(descuento),
+          ...(imagen ? { imagen } : {})
+        };
+      })
+      .filter(p => p.nombre);
+
+    if (!productos.length) throw new Error('No se encontraron productos en la hoja');
+    return productos;
+  }
+
+  function mostrarErrorConexion(){
+    document.getElementById('appContent').style.display = 'none';
+    document.getElementById('errorWhatsappBtn').href = `https://wa.me/${CONFIG.telefono}`;
+    document.getElementById('errorConexion').style.display = 'block';
+  }
+
+  async function iniciar(){
+    if (!CONFIG.sheetUrl || !CONFIG.sheetUrl.trim()){
+      mostrarErrorConexion();
+      return;
+    }
+    try {
+      const productosSheet = await cargarProductosDesdeSheet(CONFIG.sheetUrl.trim());
+      CONFIG.productos = productosSheet;
+    } catch (err) {
+      console.warn('No se pudo cargar el catálogo desde la hoja:', err);
+      mostrarErrorConexion();
+      return;
+    }
+    productoActivo = CONFIG.productos[0];
+    varianteActiva = productoActivo.variantes[0] || null;
+    renderProductos();
+    renderVariantes();
+    renderDescHint();
+    renderTicket();
+  }
+
+  iniciar();
 </script>
 
 </body>
