@@ -127,6 +127,36 @@
   }
   .error-whatsapp-btn:hover{ background: #21bd5c; }
 
+  .cargando{
+    max-width: 460px;
+    margin: 50px auto;
+    text-align: center;
+    color: var(--paper);
+  }
+  .spinner{
+    width: 34px;
+    height: 34px;
+    margin: 0 auto 18px;
+    border: 3px solid rgba(232,226,207,0.25);
+    border-top-color: var(--mustard);
+    border-radius: 50%;
+    animation: girar 0.8s linear infinite;
+  }
+  @keyframes girar{
+    to{ transform: rotate(360deg); }
+  }
+  .cargando-texto{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0 0 6px;
+  }
+  .cargando-sub{
+    font-size: 12px;
+    opacity: 0.7;
+    margin: 0;
+  }
+
   .card{
     background: var(--paper);
     border-radius: var(--radius);
@@ -633,6 +663,13 @@
     color: var(--paper);
     font-weight: 600;
   }
+  .fecha-label{
+    font-size: 12px;
+    color: var(--pine);
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 4px;
+  }
   .fecha-input{
     width: 100%;
     box-sizing: border-box;
@@ -643,7 +680,6 @@
     font-family: 'Work Sans', sans-serif;
     font-size: 14px;
     color: var(--ink);
-    margin-top: 10px;
   }
   .fecha-input:focus{ outline: none; border-color: var(--pine); }
   .prioridad-aviso{
@@ -683,10 +719,9 @@
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 600;
     font-size: 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 6px 8px;
+    white-space: normal;
+    line-height: 1.5;
+    padding: 6px 10px;
     border-radius: 8px;
     margin: 4px 0;
   }
@@ -712,8 +747,14 @@
     <div class="eyebrow">Presupuestador</div>
     <h1>Varietal Vinoteca</h1>
     <p>Elegí tus productos y mandanos el pedido armado</p>
-    <a href="Promos.html" class="link-cruzado">🎁 Ver promos especiales →</a>
+    <a href="Promos.html" class="link-cruzado">🎁 Ver Promos Especiales →</a>
   </header>
+
+  <div class="cargando" id="pantallaCarga">
+    <div class="spinner"></div>
+    <p class="cargando-texto">Cargando el catálogo actualizado…</p>
+    <p class="cargando-sub">Puede tardar unos segundos, ¡ya casi está! 🍷</p>
+  </div>
 
   <div class="error-conexion" id="errorConexion" style="display:none;">
     <div class="error-emoji">😕</div>
@@ -722,13 +763,13 @@
     <a href="#" id="errorWhatsappBtn" class="error-whatsapp-btn" target="_blank">Escribinos por WhatsApp</a>
   </div>
 
-  <div id="appContent">
+  <div id="appContent" style="display:none;">
 
   <!-- Selección de producto -->
   <section class="card">
     <h2>1. Elegí el producto</h2>
     <div class="controles-lista">
-      <input type="text" id="buscador" class="buscador-input" placeholder="Buscar producto…" autocomplete="off">
+      <input type="text" id="buscador" class="buscador-input" placeholder="Buscar producto… ej: malbec, whisky" autocomplete="off">
       <select id="orden" class="orden-select">
         <option value="relevancia">Orden: A-Z</option>
         <option value="precio-asc">Precio: menor a mayor</option>
@@ -790,6 +831,7 @@
       <button type="button" class="prioridad-btn" data-valor="fecha">Elegir un día</button>
       <button type="button" class="prioridad-btn" data-valor="sinapuro">Sin apuro / a confirmar</button>
     </div>
+    <div class="fecha-label" id="fechaLabel" style="display:none;">📅 Tocá para elegir el día en el calendario</div>
     <input type="date" id="fechaPedido" class="fecha-input" style="display:none;">
     <div class="prioridad-aviso" id="prioridadAviso"></div>
   </section>
@@ -1088,12 +1130,23 @@
     });
 
     if (pctCombinado > 0){
-      $combinadoInfo.innerHTML = `<span class="combo-activo">🎉 ${pctCombinado}% OFF combinado por ${totalUnidades} unidades</span>`;
+      let html = `<span class="combo-activo">🎉 ${pctCombinado}% OFF combinado por ${totalUnidades} unidades</span>`;
+      const siguienteMejor = CONFIG.descuentoCombinado.find(d => d.porcentaje > pctCombinado);
+      if (siguienteMejor){
+        const faltan = siguienteMejor.desde - totalUnidades;
+        html += `<span class="combo-siguiente">Sumá ${faltan} más y llegás al ${siguienteMejor.porcentaje}% (${siguienteMejor.desde}u.)</span>`;
+      }
+      $combinadoInfo.innerHTML = html;
     } else {
-      const siguiente = CONFIG.descuentoCombinado.find(d => d.desde > totalUnidades && d.porcentaje > 0);
-      if (siguiente){
-        const faltan = siguiente.desde - totalUnidades;
-        $combinadoInfo.innerHTML = `<span class="combo-siguiente">Sumá ${faltan} más y activás ${siguiente.porcentaje}% OFF (${siguiente.desde}u.)</span>`;
+      const tiersFuturos = CONFIG.descuentoCombinado.filter(d => d.desde > totalUnidades && d.porcentaje > 0);
+      if (tiersFuturos.length){
+        const partes = tiersFuturos.map((d, i) => {
+          const faltan = d.desde - totalUnidades;
+          return i === 0
+            ? `Sumá ${faltan} más y accedés al ${d.porcentaje}%`
+            : `o ${faltan} más para el ${d.porcentaje}%`;
+        });
+        $combinadoInfo.innerHTML = `<span class="combo-siguiente">${partes.join(' · ')}</span>`;
       } else {
         $combinadoInfo.innerHTML = '';
       }
@@ -1151,6 +1204,7 @@
   let prioridadSeleccionada = null; // 'manana' | 'fecha' | 'sinapuro'
   const $prioridadBtns = document.querySelectorAll('.prioridad-btn');
   const $fechaPedido = document.getElementById('fechaPedido');
+  const $fechaLabel = document.getElementById('fechaLabel');
   const $prioridadAviso = document.getElementById('prioridadAviso');
 
   $prioridadBtns.forEach(btn => {
@@ -1160,11 +1214,13 @@
       $prioridadAviso.textContent = '';
 
       if (prioridadSeleccionada === 'fecha'){
+        $fechaLabel.style.display = 'block';
         $fechaPedido.style.display = 'block';
         const hoy = new Date().toISOString().split('T')[0];
         $fechaPedido.min = hoy;
         $fechaPedido.focus();
       } else {
+        $fechaLabel.style.display = 'none';
         $fechaPedido.style.display = 'none';
       }
     });
@@ -1202,11 +1258,12 @@
       const pctIndividual = calcularDescuento({ descuentos: item.descuentosProducto }, item.cantidad);
       const pctTotal = Math.min(100, pctIndividual + pctCombinado);
       const subtotal = item.precioUnitario * item.cantidad * (1 - pctTotal / 100);
+      const precioUnitFinal = subtotal / item.cantidad;
       total += subtotal;
 
       const varTxt = item.variante ? ` (${item.variante})` : '';
       const offTxt = pctTotal > 0 ? ` — ${pctTotal}% off` : '';
-      texto += `${i + 1}) ${formatoNombre(item.nombre)}${varTxt} x${item.cantidad}${offTxt} — ${formatoPesos(subtotal)}\n`;
+      texto += `${i + 1}) ${formatoNombre(item.nombre)}${varTxt} x${item.cantidad}${offTxt} — ${formatoPesos(subtotal)} (${formatoPesos(precioUnitFinal)} c/u)\n`;
     });
     if (pctCombinado > 0){
       texto += `\n🎉 Incluye ${pctCombinado}% OFF combinado por cantidad total del pedido\n`;
@@ -1292,7 +1349,7 @@
   }
 
   function mostrarErrorConexion(){
-    document.getElementById('appContent').style.display = 'none';
+    document.getElementById('pantallaCarga').style.display = 'none';
     document.getElementById('errorWhatsappBtn').href = `https://wa.me/${CONFIG.telefono}`;
     document.getElementById('errorConexion').style.display = 'block';
   }
@@ -1317,6 +1374,8 @@
     renderVariantes();
     renderDescHint();
     renderTicket();
+    document.getElementById('pantallaCarga').style.display = 'none';
+    document.getElementById('appContent').style.display = 'block';
   }
 
   iniciar();
