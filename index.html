@@ -934,7 +934,7 @@
   }
 
   function poblarFiltroBodega(){
-    $filtroBodega.innerHTML = '<option value="">🚜Todas las bodegas</option>';
+    $filtroBodega.innerHTML = '<option value="">🚜 Todas las bodegas</option>';
     const bodegasUnicas = [...new Set(CONFIG.productos.map(p => p.bodega).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es'));
     bodegasUnicas.forEach(b => {
       const opt = document.createElement('option');
