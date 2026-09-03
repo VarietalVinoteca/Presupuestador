@@ -1463,7 +1463,7 @@
   }
 
   document.getElementById('compartirBtn').addEventListener('click', () => {
-    const mensaje = `🍷 Te paso el presupuestador de *${CONFIG.negocio}*: elegís tus productos, mirás los descuentos aplicados y armás tu pedido en minutos.\n\n${window.location.href}`;
+    const mensaje = `🍷 Descubrí el presupuestador de *${CONFIG.negocio}*: elegís tus productos, combinas productos con descuentos y armás tu pedido en minutos.\n\n${window.location.href}`;
     const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
   });
