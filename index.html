@@ -837,7 +837,7 @@
     <div class="controles-lista">
       <input type="text" id="buscador" class="buscador-input" placeholder="🔍 Producto ej: malbec, whisky" autocomplete="off">
       <select id="orden" class="orden-select">
-        <option value="relevancia">Ordenar por precio</option>
+        <option value="relevancia">💰 Ordenar x $</option>
         <option value="precio-asc">menor a mayor</option>
         <option value="precio-desc">mayor a menor</option>
       </select>
@@ -1018,7 +1018,7 @@
   }
 
   function poblarFiltroBodega(){
-    $filtroBodega.innerHTML = '<option value="">Todas las bodegas</option>';
+    $filtroBodega.innerHTML = '<option value="">🚜 Todas las bodegas</option>';
     const bodegasUnicas = [...new Set(CONFIG.productos.map(p => p.bodega).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es'));
     bodegasUnicas.forEach(b => {
       const opt = document.createElement('option');
@@ -1463,7 +1463,7 @@
   }
 
   document.getElementById('compartirBtn').addEventListener('click', () => {
-    const mensaje = `🍷 Te paso el presupuestador de *${CONFIG.negocio}*: elegís tus productos, mirás los descuentos aplicados y armás tu pedido en minutos.\n\n${window.location.href}`;
+    const mensaje = `🍷 Te paso el presupuestador de *${CONFIG.negocio}*: elegí, combiná y aprovechá los descuentos para armar tu pedido en minutos.\n\n${window.location.href}`;
     const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
   });
