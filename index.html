@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Varietal Vinoteca — Armá tu pedido</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2B2540">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Varietal">
+
+<!-- Vista previa al compartir el link (WhatsApp, etc.) -->
+<meta property="og:title" content="Varietal Vinoteca — Armá tu pedido">
+<meta property="og:description" content="Elegí tus productos, mirá el descuento aplicado y mandanos el pedido armado por WhatsApp.">
+<meta property="og:image" content="https://varietalvinoteca.github.io/Presupuestador/obraprima.png">
+<meta property="og:url" content="https://varietalvinoteca.github.io/Presupuestador/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #E8E2CF;
+    --paper-2: #DED5B9;
+    --ink: #20241D;
+    --pine: #2B2540;
+    --pine-light: #2F4A38;
+    --mustard: #D6A73B;
+    --mustard-dark: #B8892A;
+    --stamp-red: #A63D31;
+    --line: #B9AD8B;
+    --white: #FBF8F0;
+    --radius: 4px;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background: var(--pine);
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(255,255,255,0.04), transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(255,255,255,0.03), transparent 45%);
+    font-family: 'Work Sans', sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 28px 14px 60px;
+  }
+
+  .wrap{
+    max-width: 460px;
+    margin: 0 auto;
+  }
+
+  header.top{
+    text-align:center;
+    color: var(--paper);
+    margin-bottom: 22px;
+  }
+  header.top .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mustard);
+    margin-bottom: 6px;
+  }
+  header.top h1{
+    font-family: 'Archivo Black', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: clamp(24px, 6.5vw, 32px);
+    margin: 0 0 6px;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+  }
+  header.top p{
+    margin:0;
+    font-size: 13.5px;
+    opacity: 0.78;
+  }
+  .link-cruzado{
+    display: inline-block;
+    margin-top: 14px;
+    background: var(--mustard);
+    color: var(--ink);
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 12.5px;
+    padding: 8px 16px;
+    border-radius: 999px;
+  }
+  .link-cruzado:hover{ background: var(--mustard-dark); }
+
+  .instalar-btn{
+    display: inline-flex;
+    margin-top: 10px;
+    margin-left: 8px;
+    background: transparent;
+    border: 1px solid rgba(232,226,207,0.4);
+    color: var(--paper);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .instalar-btn:hover{ background: rgba(232,226,207,0.12); }
+  .instalar-aviso{
+    max-width: 340px;
+    margin: 10px auto 0;
+    font-size: 11.5px;
+    color: var(--paper);
+    opacity: 0.8;
+    line-height: 1.5;
+    display: none;
+  }
+
+  .error-conexion{
+    max-width: 460px;
+    margin: 40px auto;
+    background: var(--paper);
+    border-radius: var(--radius);
+    padding: 36px 24px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  }
+  .error-emoji{ font-size: 40px; margin-bottom: 10px; }
+  .error-titulo{
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 17px;
+    color: var(--pine);
+    margin: 0 0 10px;
+  }
+  .error-texto{
+    font-size: 13.5px;
+    color: var(--ink);
+    opacity: 0.8;
+    line-height: 1.5;
+    margin: 0 0 20px;
+  }
+  .error-whatsapp-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #25D366;
+    color: #08341c;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 22px;
+    border-radius: var(--radius);
+  }
+  .error-whatsapp-btn:hover{ background: #21bd5c; }
+
+  .cargando{
+    max-width: 460px;
+    margin: 50px auto;
+    text-align: center;
+    color: var(--paper);
+  }
+  .spinner{
+    width: 34px;
+    height: 34px;
+    margin: 0 auto 18px;
+    border: 3px solid rgba(232,226,207,0.25);
+    border-top-color: var(--mustard);
+    border-radius: 50%;
+    animation: girar 0.8s linear infinite;
+  }
+  @keyframes girar{
+    to{ transform: rotate(360deg); }
+  }
+  .cargando-texto{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0 0 6px;
+  }
+  .cargando-sub{
+    font-size: 12px;
+    opacity: 0.7;
+    margin: 0;
+  }
+
+  .card{
+    background: var(--paper);
+    border-radius: var(--radius);
+    padding: 20px 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  }
+
+  .card h2{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--pine);
+    margin: 0 0 14px;
+    display:flex;
+    align-items:center;
+    gap: 8px;
+  }
+  .card h2::before{
+    content:"";
+    width: 16px; height: 2px;
+    background: var(--mustard-dark);
+    display:inline-block;
+  }
+
+  /* Product picker */
+  .controles-lista{
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .buscador-input{
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 11px 14px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .buscador-input:focus{
+    outline: none;
+    border-color: var(--pine);
+  }
+  .orden-select{
+    flex-shrink: 0;
+    max-width: 42%;
+    box-sizing: border-box;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 11px 8px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 12.5px;
+    color: var(--ink);
+  }
+  .orden-select:focus{
+    outline: none;
+    border-color: var(--pine);
+  }
+  .bodega-select{
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .bodega-select:focus{
+    outline: none;
+    border-color: var(--pine);
+  }
+  .filtro-descuento-btn{
+    flex-shrink: 0;
+    max-width: 46%;
+    box-sizing: border-box;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 9px 10px;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    color: var(--ink);
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: border-color .15s ease, background .15s ease, color .15s ease;
+  }
+  .filtro-descuento-btn:hover{ border-color: var(--pine-light); }
+  .filtro-descuento-btn.activo{
+    background: var(--stamp-red);
+    border-color: var(--stamp-red);
+    color: var(--white);
+    font-weight: 700;
+  }
+  .productos{
+    display:flex;
+    flex-direction:column;
+    gap: 8px;
+    max-height: 260px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 4px;
+    overscroll-behavior-y: contain;
+  }
+  /* Scrollbar estilizada */
+  .productos::-webkit-scrollbar{
+    width: 6px;
+  }
+  .productos::-webkit-scrollbar-track{
+    background: transparent;
+  }
+  .productos::-webkit-scrollbar-thumb{
+    background: var(--line);
+    border-radius: 3px;
+  }
+  .sin-resultados{
+    text-align: center;
+    font-size: 13px;
+    color: #7a7362;
+    padding: 18px 0;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .producto-btn{
+    text-align:left;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap: 10px;
+    font-family:'Work Sans', sans-serif;
+    transition: border-color .15s ease, background .15s ease;
+    flex-shrink: 0;
+  }
+  .producto-btn:hover{ border-color: var(--pine-light); }
+  .producto-btn.activo{
+    background: var(--pine);
+    border-color: var(--pine);
+    color: var(--paper);
+  }
+  .producto-btn{ align-items: center; }
+  .foto-producto{
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+  }
+  .producto-btn .nombre{ font-weight: 600; font-size: 12.5px; flex: 1; min-width: 0; line-height: 1.3; }
+  .producto-btn .precio{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    opacity: 0.85;
+    flex-shrink: 0;
+  }
+
+  /* Botón Ver más */
+  .ver-mas-btn{
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background: transparent;
+    border: 1.5px dashed var(--line);
+    border-radius: var(--radius);
+    color: var(--pine);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all .15s ease;
+  }
+  .ver-mas-btn:hover{
+    border-color: var(--pine);
+    background: var(--white);
+  }
+  .ver-mas-btn.oculto{
+    display: none;
+  }
+
+  .variantes{
+    display:flex;
+    flex-wrap:wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .chip{
+    border: 1px solid var(--line);
+    background: var(--white);
+    padding: 7px 13px;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor:pointer;
+  }
+  .chip.activo{
+    background: var(--mustard);
+    border-color: var(--mustard-dark);
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .cantidad-row{
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    margin-top: 18px;
+    gap: 12px;
+  }
+  .cantidad-row .label{
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--pine);
+  }
+  .stepper{
+    display:flex;
+    align-items:center;
+    border: 2px solid var(--pine);
+    border-radius: 8px;
+    overflow:hidden;
+    background: var(--white);
+  }
+  .stepper button{
+    width: 48px; height: 48px;
+    border:none;
+    background: transparent;
+    font-size: 24px;
+    font-weight: 600;
+    cursor:pointer;
+    color: var(--pine);
+  }
+  .stepper button:hover{ background: var(--paper-2); }
+  .stepper input{
+    width: 56px;
+    text-align:center;
+    border: none;
+    border-left: 2px solid var(--pine);
+    border-right: 2px solid var(--pine);
+    height: 48px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 18px;
+    font-weight: 600;
+    background: transparent;
+  }
+  .stepper input:focus{ outline: 2px solid var(--mustard-dark); outline-offset: -2px; }
+
+  .desc-hint{
+    margin-top: 12px;
+    min-height: 0;
+  }
+  .desc-hint:empty{ display: none; }
+  .oferta-activa{
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--stamp-red);
+    color: var(--white);
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+    padding: 8px 14px;
+    border-radius: 999px;
+    box-shadow: 0 3px 10px rgba(166,61,49,0.35);
+  }
+  .oferta-siguiente{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--mustard);
+    border: none;
+    color: var(--ink);
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.01em;
+    padding: 7px 14px;
+    border-radius: 999px;
+  }
+
+  .agregar-btn{
+    margin-top: 16px;
+    width: 100%;
+    background: var(--pine);
+    color: var(--paper);
+    border: none;
+    padding: 12px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    font-family: 'Work Sans', sans-serif;
+  }
+  .agregar-btn:hover{ background: var(--pine-light); }
+  .agregar-btn:focus-visible{ outline: 2px solid var(--mustard); outline-offset: 2px; }
+
+  /* Ticket / receipt */
+  .ticket{
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 22px 20px 26px;
+    position: relative;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+  }
+  .ticket-header{
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    margin-bottom: 14px;
+  }
+  .ticket-header .neg{
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .ticket-header .sub{
+    font-size: 11px;
+    opacity: 0.6;
+    margin-top: 2px;
+  }
+  .dashed{
+    border: none;
+    border-top: 1px dashed var(--line);
+    margin: 12px 0;
+  }
+
+  .empty-msg{
+    text-align:center;
+    font-size: 13px;
+    color: #7a7362;
+    padding: 18px 0;
+    font-family:'IBM Plex Mono', monospace;
+  }
+
+  .item-row{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 13px;
+    padding: 7px 0;
+  }
+  .item-row .desc{ flex: 1; line-height: 1.4; }
+  .item-row .precio-unit{
+    font-size: 10.5px;
+    color: #8a8272;
+    font-weight: 400;
+    margin-top: 1px;
+  }
+  .item-row .desc .var{ opacity: 0.65; }
+  .item-row .desc .off{
+    color: var(--stamp-red);
+    font-weight: 600;
+  }
+  .item-row .monto{
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  .item-row .quitar{
+    background: rgba(166,61,49,0.1);
+    border: none;
+    color: var(--stamp-red);
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 700;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    line-height: 1;
+    transition: background .15s ease;
+  }
+  .item-row .quitar:hover{ background: rgba(166,61,49,0.22); }
+  .item-row .quitar:active{ background: rgba(166,61,49,0.32); }
+
+  .total-row{
+    display:flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family:'IBM Plex Mono', monospace;
+    margin-top: 4px;
+  }
+  .total-row .lbl{
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .total-row .val{
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--pine);
+  }
+
+  .ahorro-nota{
+    text-align: right;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    color: var(--stamp-red);
+    margin-top: 2px;
+  }
+
+  .stamp{
+    position:absolute;
+    top: 14px;
+    right: 16px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: 2px dashed var(--stamp-red);
+    color: var(--stamp-red);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    transform: rotate(-12deg);
+    font-family:'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 11px;
+    line-height: 1.1;
+    text-align:center;
+    opacity: 0.85;
+    mix-blend-mode: multiply;
+    pointer-events:none;
+  }
+
+  .tear{
+    height: 12px;
+    margin: 0 -20px -26px;
+    background:
+      linear-gradient(135deg, var(--white) 50%, transparent 50%) 0 50% / 14px 14px repeat-x,
+      linear-gradient(-135deg, var(--white) 50%, transparent 50%) 0 50% / 14px 14px repeat-x;
+    background-color: transparent;
+  }
+
+  .enviar-btn{
+    margin-top: 26px;
+    width: 100%;
+    background: #25D366;
+    color: #08341c;
+    border: none;
+    padding: 15px;
+    border-radius: var(--radius);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 9px;
+    font-family: 'Work Sans', sans-serif;
+    transition: transform .1s ease, background .15s ease;
+  }
+  .enviar-btn:hover{ background: #21bd5c; }
+  .enviar-btn:active{ transform: scale(0.98); }
+  .enviar-btn:disabled{
+    background: #cfcfc7;
+    color: #8a8a80;
+    cursor: not-allowed;
+  }
+  .enviar-btn svg{ width: 18px; height: 18px; flex-shrink:0; }
+
+  .prioridad-opciones{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .prioridad-btn{
+    flex: 1 1 auto;
+    min-width: 110px;
+    text-align: center;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 10px 14px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease, color .15s ease;
+  }
+  .prioridad-btn:hover{ border-color: var(--pine-light); }
+  .prioridad-btn.activo{
+    background: var(--pine);
+    border-color: var(--pine);
+    color: var(--paper);
+    font-weight: 600;
+  }
+  .fecha-label{
+    font-size: 12px;
+    color: var(--pine);
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 4px;
+  }
+  .fecha-input{
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 11px 14px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .fecha-input:focus{ outline: none; border-color: var(--pine); }
+  .prioridad-aviso{
+    margin-top: 8px;
+    font-size: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--stamp-red);
+    min-height: 0;
+  }
+  .prioridad-aviso:empty{ display: none; }
+
+  .combinado-info{
+    margin-top: 4px;
+  }
+  .combinado-info:empty{ display: none; margin: 0; }
+  .combo-activo{
+    display: block;
+    text-align: center;
+    background: var(--stamp-red);
+    color: var(--white);
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 7px 8px;
+    border-radius: 8px;
+    margin: 4px 0;
+  }
+  .combo-siguiente{
+    display: block;
+    text-align: center;
+    background: var(--mustard);
+    border: none;
+    color: var(--ink);
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.01em;
+    white-space: normal;
+    line-height: 1.5;
+    padding: 7px 10px;
+    border-radius: 8px;
+    margin: 4px 0;
+  }
+
+  .foot-note{
+    text-align:center;
+    color: var(--paper);
+    opacity: 0.55;
+    font-size: 11.5px;
+    margin-top: 18px;
+    font-family:'IBM Plex Mono', monospace;
+  }
+
+  .compartir-card{
+    max-width: 460px;
+    margin: 22px auto 0;
+    text-align: center;
+  }
+  .compartir-texto{
+    color: var(--paper);
+    opacity: 0.75;
+    font-size: 12.5px;
+    margin: 0 0 10px;
+  }
+  .compartir-btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid rgba(232,226,207,0.4);
+    color: var(--paper);
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .compartir-btn:hover{
+    background: rgba(232,226,207,0.1);
+    border-color: rgba(232,226,207,0.65);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Presupuestador</div>
+    <h1>Varietal Vinoteca</h1>
+    <p>Elegí tus productos y mandanos el pedido armado</p>
+    <a href="Promos.html" class="link-cruzado">🎁 Ver Promos Especiales →</a>
+    <button type="button" id="instalarBtn" class="instalar-btn" style="display:none;">📲 Instalar app</button>
+    <div class="instalar-aviso" id="instalarAviso"></div>
+  </header>
+
+  <div class="cargando" id="pantallaCarga">
+    <div class="spinner"></div>
+    <p class="cargando-texto">Cargando el catálogo actualizado…</p>
+    <p class="cargando-sub">Puede tardar unos segundos, ¡ya casi está! 🍷</p>
+  </div>
+
+  <div class="error-conexion" id="errorConexion" style="display:none;">
+    <div class="error-emoji">😕</div>
+    <p class="error-titulo">No pudimos cargar el catálogo</p>
+    <p class="error-texto">Puede ser un problema momentáneo de conexión. Volvé a intentarlo en unos minutos, o escribinos directo y te ayudamos con tu pedido.</p>
+    <a href="#" id="errorWhatsappBtn" class="error-whatsapp-btn" target="_blank">Escribinos por WhatsApp</a>
+  </div>
+
+  <div id="appContent" style="display:none;">
+
+  <!-- Selección de producto -->
+  <section class="card">
+    <h2>1. Elegí el producto</h2>
+    <div class="controles-lista">
+      <input type="text" id="buscador" class="buscador-input" placeholder="🔍 Producto ej: malbec, whisky" autocomplete="off">
+      <select id="orden" class="orden-select">
+        <option value="relevancia">💰 Ordenar x $</option>
+        <option value="precio-asc">menor a mayor</option>
+        <option value="precio-desc">mayor a menor</option>
+      </select>
+    </div>
+    <div class="controles-lista">
+      <select id="filtroBodega" class="bodega-select">
+        <option value="">Todas las bodegas</option>
+      </select>
+      <button type="button" id="filtroDescuento" class="filtro-descuento-btn">🏷️ Oportunidades!</button>
+    </div>
+    <div class="productos" id="productos"></div>
+    <div class="sin-resultados" id="sinResultados" style="display:none;">No encontramos productos con ese nombre</div>
+    <!-- Botón Ver más -->
+    <button type="button" class="ver-mas-btn" id="verMasBtn">↓ Ver más productos</button>
+
+    <div class="variantes" id="variantes" style="display:none;"></div>
+
+    <div class="cantidad-row">
+      <span class="label">Cantidad</span>
+      <div class="stepper">
+        <button type="button" id="menos" aria-label="Restar">–</button>
+        <input type="number" id="cantidad" value="1" min="1" inputmode="numeric">
+        <button type="button" id="mas" aria-label="Sumar">+</button>
+      </div>
+    </div>
+    <div class="desc-hint" id="descHint"></div>
+
+    <button class="agregar-btn" id="agregarBtn">Agregar al pedido</button>
+  </section>
+
+  <!-- Ticket -->
+  <section class="ticket" id="ticketCard">
+    <div class="stamp" id="stamp" style="display:none;"></div>
+    <div class="ticket-header">
+      <div class="neg">Varietal Vinoteca</div>
+      <div class="sub">Presupuesto — sujeto a stock disponible</div>
+    </div>
+    <hr class="dashed">
+    <div id="listaItems">
+      <div class="empty-msg">Todavía no agregaste productos</div>
+    </div>
+    <div class="combinado-info" id="combinadoInfo"></div>
+    <hr class="dashed">
+    <div class="total-row">
+      <span class="lbl">Total</span>
+      <span class="val" id="totalVal">$0</span>
+    </div>
+    <div class="ahorro-nota" id="ahorroNota"></div>
+    <div class="tear"></div>
+  </section>
+
+  <!-- Prioridad del pedido -->
+  <section class="card">
+    <h2>2. ¿Cuándo lo necesitás?</h2>
+    <div class="prioridad-opciones" id="prioridadOpciones">
+      <button type="button" class="prioridad-btn" data-valor="manana">Para mañana</button>
+      <button type="button" class="prioridad-btn" data-valor="fecha">Elegir un día</button>
+      <button type="button" class="prioridad-btn" data-valor="sinapuro">Sin apuro / a confirmar</button>
+    </div>
+    <div class="fecha-label" id="fechaLabel" style="display:none;">📅 Tocá para elegir el día en el calendario</div>
+    <input type="date" id="fechaPedido" class="fecha-input" style="display:none;">
+    <div class="prioridad-aviso" id="prioridadAviso"></div>
+  </section>
+
+  <button class="enviar-btn" id="enviarBtn" disabled>
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.44 9.9-9.9 0-2.65-1.03-5.13-2.9-7C17.17 3.03 14.68 2 12.04 2zm5.8 14.1c-.24.68-1.4 1.3-1.93 1.37-.5.08-1.12.11-1.8-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.13-4.9-4.32-.14-.19-1.17-1.55-1.17-2.96 0-1.4.74-2.09 1-2.38.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.42-.07.65.5.24.58.81 2 .88 2.14.07.14.12.31.02.5-.09.19-.14.31-.28.47-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.71 1.17 1.52 1.89 1.05.93 1.93 1.22 2.21 1.36.28.14.44.12.6-.07.17-.19.7-.81.89-1.09.19-.28.38-.23.63-.14.26.09 1.66.78 1.94.92.28.14.47.21.53.33.07.12.07.68-.17 1.36z"/></svg>
+    Enviar pedido por WhatsApp
+  </button>
+
+  <p class="foot-note">Al enviar, confirmás el pedido según este presupuesto</p>
+
+  <div class="compartir-card">
+    <p class="compartir-texto">¿Conocés a alguien a quien le pueda interesar? 🍷</p>
+    <button type="button" id="compartirBtn" class="compartir-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.44 9.9-9.9 0-2.65-1.03-5.13-2.9-7C17.17 3.03 14.68 2 12.04 2zm5.8 14.1c-.24.68-1.4 1.3-1.93 1.37-.5.08-1.12.11-1.8-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.13-4.9-4.32-.14-.19-1.17-1.55-1.17-2.96 0-1.4.74-2.09 1-2.38.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.42-.07.65.5.24.58.81 2 .88 2.14.07.14.12.31.02.5-.09.19-.14.31-.28.47-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.71 1.17 1.52 1.89 1.05.93 1.93 1.22 2.21 1.36.28.14.44.12.6-.07.17-.19.7-.81.89-1.09.19-.28.38-.23.63-.14.26.09 1.66.78 1.94.92.28.14.47.21.53.33.07.12.07.68-.17 1.36z"/></svg>
+      Compartí esta herramienta
+    </button>
+  </div>
+
+  </div><!-- /appContent -->
+</div>
+
+<script>
+  /* ======================================================
+     CONFIGURACIÓN — Editá esta sección con tus productos,
+     precios, variantes, descuentos por cantidad y tu número
+     de WhatsApp. El resto del código no hace falta tocarlo.
+     ====================================================== */
+  const CONFIG = {
+    negocio: "Varietal vinoteca",
+    // Número de WhatsApp con código de país y de área, SIN el "+" ni espacios
+    // Ejemplo Córdoba, Argentina: 54 9 351 1234567 -> "5493511234567"
+    telefono: "5493515089742",
+
+    // Descuento combinado: se calcula sobre la SUMA de unidades de TODO
+    // el pedido (mezclando productos distintos) y se suma al descuento
+    // propio que ya tenga cada producto.
+    descuentoCombinado: [
+      { desde: 1, hasta: 5, porcentaje: 0 },
+      { desde: 6, hasta: 11, porcentaje: 10 },
+      { desde: 12, hasta: 9999, porcentaje: 15 }
+    ],
+
+    // OPCIONAL: pegá acá el link de tu Google Sheet publicada como CSV
+    // (Archivo > Compartir > Publicar en la web > elegí la pestaña
+    // "Lista para presupuestador" > formato CSV > Publicar).
+    // Si lo dejás vacío (""), se usan los productos de más abajo como
+    // respaldo — eso pasa también si falla la conexión a Sheets.
+    // Estructura esperada, EXACTAMENTE como la tenés hoy: fila 3 con
+    // los encabezados (se busca "BODEGA" en columna A para ubicarla),
+    // datos desde la fila siguiente, columnas A=Bodega, B=Producto,
+    // G=Precio, H=Descuento (con formato "1-5:0|6-11:8|12-9999:15").
+    // Las columnas C, D, E, F se ignoran, ocultas o no.
+    sheetUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRX8bpxcHJ4yEo_GIJVcROkvQAKot9E5cdBgxPUf7vq4VlmC5luiHD8oOCw2W-tCBFbRwbw5FhH9RPH/pub?gid=1883509721&single=true&output=csv",
+
+    // Productos de respaldo — se usan si sheetUrl está vacío o falla la conexión.
+    productos: []
+  };
+  /* ================== FIN CONFIGURACIÓN ================== */
+
+  const PRODUCTOS_VISIBLE_INICIAL = 4;  // ← Cantidad de productos visibles al cargar
+
+  let productoActivo = null;
+  let varianteActiva = null;
+  let cart = [];
+  let mostrarTodos = false;  // ← Estado: ¿se muestran todos los productos?
+
+  const $productos = document.getElementById('productos');
+  const $buscador = document.getElementById('buscador');
+  const $orden = document.getElementById('orden');
+  const $filtroBodega = document.getElementById('filtroBodega');
+  const $filtroDescuento = document.getElementById('filtroDescuento');
+  const $sinResultados = document.getElementById('sinResultados');
+  const $variantes = document.getElementById('variantes');
+  const $cantidad = document.getElementById('cantidad');
+  const $descHint = document.getElementById('descHint');
+  const $listaItems = document.getElementById('listaItems');
+  const $totalVal = document.getElementById('totalVal');
+  const $ahorroNota = document.getElementById('ahorroNota');
+  const $combinadoInfo = document.getElementById('combinadoInfo');
+  const $stamp = document.getElementById('stamp');
+  const $enviarBtn = document.getElementById('enviarBtn');
+  const $verMasBtn = document.getElementById('verMasBtn');
+
+  function formatoPesos(n){
+    return '$' + Math.round(n).toLocaleString('es-AR');
+  }
+
+  // Sanitiza cualquier texto que venga de la planilla (Bodega, Producto,
+  // Variante) antes de insertarlo en el HTML, para que no se pueda
+  // inyectar código si algún día ese dato viene manipulado.
+  function escapeHtml(str){
+    if (str === null || str === undefined) return '';
+    const div = document.createElement('div');
+    div.textContent = String(str);
+    return div.innerHTML;
+  }
+
+  // Convierte "GIN ACONCAGUA DE ALUMINIO X 500" en "Gin Aconcagua De Aluminio X 500"
+  // Los números y la "x" de tamaño (multiplicador) quedan tal cual.
+  function formatoNombre(nombre){
+    if (!nombre) return '';
+    return nombre.split(' ').map(palabra => {
+      if (/^\d+([.,]\d+)?$/.test(palabra)) return palabra;
+      if (palabra.toLowerCase() === 'x') return 'x';
+      return palabra.charAt(0).toUpperCase() + palabra.slice(1).toLowerCase();
+    }).join(' ');
+  }
+
+  function calcularDescuento(producto, cantidad){
+    const tier = producto.descuentos.find(d => cantidad >= d.desde && cantidad <= d.hasta);
+    return tier ? tier.porcentaje : 0;
+  }
+
+  function precioConDescuento(p){
+    const pct = calcularDescuento(p, 1);
+    return p.precio * (1 - pct / 100);
+  }
+
+  function poblarFiltroBodega(){
+    $filtroBodega.innerHTML = '<option value="">🚜 Todas las bodegas</option>';
+    const bodegasUnicas = [...new Set(CONFIG.productos.map(p => p.bodega).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es'));
+    bodegasUnicas.forEach(b => {
+      const opt = document.createElement('option');
+      opt.value = b;
+      opt.textContent = b;
+      $filtroBodega.appendChild(opt);
+    });
+  }
+
+  let filtroDescuentoActivo = false;
+
+  function tieneDescuentoPropio(p){
+    return p.descuentos.some(d => d.porcentaje > 0);
+  }
+
+  function renderProductos(){
+    const termino = $buscador.value.trim().toLowerCase();
+    const bodegaElegida = $filtroBodega.value;
+    let lista = CONFIG.productos.slice();
+    if (termino){
+      lista = lista.filter(p => p.nombre.toLowerCase().includes(termino));
+    }
+    if (bodegaElegida){
+      lista = lista.filter(p => p.bodega === bodegaElegida);
+    }
+    if (filtroDescuentoActivo){
+      lista = lista.filter(tieneDescuentoPropio);
+    }
+
+    if ($orden.value === 'precio-asc'){
+      lista.sort((a, b) => precioConDescuento(a) - precioConDescuento(b));
+    } else if ($orden.value === 'precio-desc'){
+      lista.sort((a, b) => precioConDescuento(b) - precioConDescuento(a));
+    } else {
+      lista.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+    }
+
+    $productos.innerHTML = '';
+    $sinResultados.style.display = lista.length ? 'none' : 'block';
+
+    // Si hay búsqueda o filtro de bodega activo, mostramos TODOS los resultados
+    // Si no, mostramos solo los primeros N o todos si se apretó "Ver más"
+    const hayFiltroActivo = termino.length > 0 || bodegaElegida !== '' || filtroDescuentoActivo;
+    const limite = (hayFiltroActivo || mostrarTodos) ? lista.length : PRODUCTOS_VISIBLE_INICIAL;
+    const visibles = lista.slice(0, limite);
+    const ocultos = lista.slice(limite);
+
+    visibles.forEach(p => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'producto-btn' + (p.id === productoActivo.id ? ' activo' : '');
+      const imgTag = p.imagen ? `<img src="${escapeHtml(p.imagen)}" alt="${escapeHtml(formatoNombre(p.nombre))}" class="foto-producto">` : '';
+      const precioFinal = precioConDescuento(p);
+      btn.innerHTML = `${imgTag}<span class="nombre">${escapeHtml(formatoNombre(p.nombre))}</span><span class="precio">${formatoPesos(precioFinal)}</span>`;
+      btn.addEventListener('click', () => {
+        productoActivo = p;
+        varianteActiva = p.variantes[0] || null;
+        $cantidad.value = 1;
+        renderProductos();
+        renderVariantes();
+        renderDescHint();
+      });
+      $productos.appendChild(btn);
+    });
+
+    // Mostrar u ocultar el botón "Ver más"
+    if (hayFiltroActivo || mostrarTodos || ocultos.length === 0) {
+      $verMasBtn.classList.add('oculto');
+    } else {
+      $verMasBtn.classList.remove('oculto');
+      $verMasBtn.textContent = `↓ Ver ${ocultos.length} producto${ocultos.length > 1 ? 's' : ''} más`;
+    }
+  }
+
+  // Click en "Ver más"
+  $verMasBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    mostrarTodos = true;
+    renderProductos();
+    // En mobile, scrollear suavemente al primer producto nuevo
+    setTimeout(() => {
+      $productos.scrollTop = $productos.scrollHeight;
+    }, 50);
+  });
+
+  $buscador.addEventListener('input', () => {
+    // Al buscar, reseteamos el estado de "ver más" para que filtre bien
+    mostrarTodos = false;
+    renderProductos();
+  });
+  $orden.addEventListener('change', renderProductos);
+  $filtroBodega.addEventListener('change', () => {
+    mostrarTodos = false;
+    renderProductos();
+  });
+  $filtroDescuento.addEventListener('click', () => {
+    filtroDescuentoActivo = !filtroDescuentoActivo;
+    $filtroDescuento.classList.toggle('activo', filtroDescuentoActivo);
+    mostrarTodos = false;
+    renderProductos();
+  });
+
+  function renderVariantes(){
+    if (!productoActivo.variantes.length){
+      $variantes.style.display = 'none';
+      $variantes.innerHTML = '';
+      return;
+    }
+    $variantes.style.display = 'flex';
+    $variantes.innerHTML = '';
+    productoActivo.variantes.forEach(v => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'chip' + (v === varianteActiva ? ' activo' : '');
+      chip.textContent = v;
+      chip.addEventListener('click', () => {
+        varianteActiva = v;
+        renderVariantes();
+      });
+      $variantes.appendChild(chip);
+    });
+  }
+
+  function renderDescHint(){
+    const cantidad = parseInt($cantidad.value, 10) || 1;
+    const pct = calcularDescuento(productoActivo, cantidad);
+    if (pct > 0){
+      $descHint.innerHTML = `<span class="oferta-activa">🏷️ ${pct}% OFF Aplicado</span>`;
+    } else {
+      const siguiente = productoActivo.descuentos.find(d => d.desde > cantidad && d.porcentaje > 0);
+      $descHint.innerHTML = siguiente
+        ? `<span class="oferta-siguiente">Llevando ${siguiente.desde} o más: ${siguiente.porcentaje}% off</span>`
+        : '';
+    }
+  }
+
+  function totalUnidadesCarrito(){
+    return cart.reduce((s, item) => s + item.cantidad, 0);
+  }
+
+  function pctCombinadoActual(){
+    const total = totalUnidadesCarrito();
+    const tier = CONFIG.descuentoCombinado.find(d => total >= d.desde && total <= d.hasta);
+    return tier ? tier.porcentaje : 0;
+  }
+
+  function renderTicket(){
+    if (cart.length === 0){
+      $listaItems.innerHTML = '<div class="empty-msg">Todavía no agregaste productos</div>';
+      $totalVal.textContent = formatoPesos(0);
+      $ahorroNota.textContent = '';
+      $combinadoInfo.innerHTML = '';
+      $stamp.style.display = 'none';
+      $enviarBtn.disabled = true;
+      return;
+    }
+
+    const totalUnidades = totalUnidadesCarrito();
+    const pctCombinado = pctCombinadoActual();
+
+    $listaItems.innerHTML = '';
+    let total = 0;
+    let ahorroTotal = 0;
+
+    cart.forEach((item, idx) => {
+      const pctIndividual = calcularDescuento({ descuentos: item.descuentosProducto }, item.cantidad);
+      const pctTotal = Math.min(100, pctIndividual + pctCombinado);
+      const bruto = item.precioUnitario * item.cantidad;
+      const subtotal = bruto * (1 - pctTotal / 100);
+      const ahorro = bruto - subtotal;
+
+      total += subtotal;
+      ahorroTotal += ahorro;
+
+      const row = document.createElement('div');
+      row.className = 'item-row';
+      const varTxt = item.variante ? ` <span class="var">(${escapeHtml(item.variante)})</span>` : '';
+      const offTxt = pctTotal > 0 ? ` <span class="off">−${pctTotal}%</span>` : '';
+      const precioUnitFinal = subtotal / item.cantidad;
+      row.innerHTML = `
+        <div class="desc">${escapeHtml(formatoNombre(item.nombre))}${varTxt} × ${item.cantidad}${offTxt}<div class="precio-unit">${formatoPesos(precioUnitFinal)} c/u</div></div>
+        <div class="monto">${formatoPesos(subtotal)}</div>
+        <button class="quitar" aria-label="Quitar" data-idx="${idx}">×</button>
+      `;
+      $listaItems.appendChild(row);
+    });
+
+    $listaItems.querySelectorAll('.quitar').forEach(btn => {
+      btn.addEventListener('click', () => {
+        cart.splice(parseInt(btn.dataset.idx, 10), 1);
+        renderTicket();
+      });
+    });
+
+    if (pctCombinado > 0){
+      let html = `<span class="combo-activo">🎉 ${pctCombinado}% OFF combinado por ${totalUnidades} unidades</span>`;
+      const siguienteMejor = CONFIG.descuentoCombinado.find(d => d.porcentaje > pctCombinado);
+      if (siguienteMejor){
+        const faltan = siguienteMejor.desde - totalUnidades;
+        html += `<span class="combo-siguiente">Sumá ${faltan} más y llegás al ${siguienteMejor.porcentaje}% (${siguienteMejor.desde}u.)</span>`;
+      }
+      $combinadoInfo.innerHTML = html;
+    } else {
+      const tiersFuturos = CONFIG.descuentoCombinado.filter(d => d.desde > totalUnidades && d.porcentaje > 0);
+      if (tiersFuturos.length){
+        const partes = tiersFuturos.map((d, i) => {
+          const faltan = d.desde - totalUnidades;
+          return i === 0
+            ? `Sumá ${faltan} más y accedés al ${d.porcentaje}%`
+            : `o ${faltan} más para el ${d.porcentaje}%`;
+        });
+        $combinadoInfo.innerHTML = `<span class="combo-siguiente">${partes.join(' · ')}</span>`;
+      } else {
+        $combinadoInfo.innerHTML = '';
+      }
+    }
+
+    $totalVal.textContent = formatoPesos(total);
+
+    if (ahorroTotal > 0){
+      $ahorroNota.textContent = `Ahorrás ${formatoPesos(ahorroTotal)} `;
+      $stamp.style.display = 'flex';
+      const pctPromedio = Math.round((ahorroTotal / (total + ahorroTotal)) * 100);
+      $stamp.innerHTML = `<span>${pctPromedio}%</span><span>OFF</span>`;
+    } else {
+      $ahorroNota.textContent = '';
+      $stamp.style.display = 'none';
+    }
+
+    $enviarBtn.disabled = false;
+  }
+
+  document.getElementById('menos').addEventListener('click', () => {
+    const v = Math.max(1, (parseInt($cantidad.value, 10) || 1) - 1);
+    $cantidad.value = v;
+    renderDescHint();
+  });
+  document.getElementById('mas').addEventListener('click', () => {
+    const v = (parseInt($cantidad.value, 10) || 1) + 1;
+    $cantidad.value = v;
+    renderDescHint();
+  });
+  $cantidad.addEventListener('input', () => {
+    if (parseInt($cantidad.value, 10) < 1 || !$cantidad.value) $cantidad.value = 1;
+    renderDescHint();
+  });
+
+  document.getElementById('agregarBtn').addEventListener('click', () => {
+    const cantidad = parseInt($cantidad.value, 10) || 1;
+
+    cart.push({
+      nombre: productoActivo.nombre,
+      variante: varianteActiva,
+      cantidad,
+      precioUnitario: productoActivo.precio,
+      descuentosProducto: productoActivo.descuentos
+    });
+
+    $cantidad.value = 1;
+    renderDescHint();
+    renderTicket();
+  });
+
+  /* ================================
+     Prioridad del pedido
+     ================================ */
+  let prioridadSeleccionada = null; // 'manana' | 'fecha' | 'sinapuro'
+  const $prioridadBtns = document.querySelectorAll('.prioridad-btn');
+  const $fechaPedido = document.getElementById('fechaPedido');
+  const $fechaLabel = document.getElementById('fechaLabel');
+  const $prioridadAviso = document.getElementById('prioridadAviso');
+
+  $prioridadBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      prioridadSeleccionada = btn.dataset.valor;
+      $prioridadBtns.forEach(b => b.classList.toggle('activo', b === btn));
+      $prioridadAviso.textContent = '';
+
+      if (prioridadSeleccionada === 'fecha'){
+        $fechaLabel.style.display = 'block';
+        $fechaPedido.style.display = 'block';
+        const hoy = new Date().toISOString().split('T')[0];
+        $fechaPedido.min = hoy;
+        $fechaPedido.focus();
+      } else {
+        $fechaLabel.style.display = 'none';
+        $fechaPedido.style.display = 'none';
+      }
+    });
+  });
+
+  function obtenerTextoPrioridad(){
+    if (prioridadSeleccionada === 'manana') return '📅 Prioridad: para mañana';
+    if (prioridadSeleccionada === 'sinapuro') return '📅 Prioridad: sin apuro / a confirmar';
+    if (prioridadSeleccionada === 'fecha' && $fechaPedido.value){
+      const [anio, mes, dia] = $fechaPedido.value.split('-');
+      return `📅 Prioridad: para el ${dia}/${mes}/${anio}`;
+    }
+    return null;
+  }
+
+  $enviarBtn.addEventListener('click', () => {
+    if (cart.length === 0) return;
+
+    if (!prioridadSeleccionada){
+      $prioridadAviso.textContent = 'Elegí para cuándo necesitás el pedido antes de enviarlo';
+      document.getElementById('prioridadOpciones').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (prioridadSeleccionada === 'fecha' && !$fechaPedido.value){
+      $prioridadAviso.textContent = 'Elegí el día en el calendario';
+      $fechaPedido.focus();
+      return;
+    }
+
+    const pctCombinado = pctCombinadoActual();
+    let total = 0;
+
+    let texto = `🧾 *Pedido — ${CONFIG.negocio}*\n\n`;
+    cart.forEach((item, i) => {
+      const pctIndividual = calcularDescuento({ descuentos: item.descuentosProducto }, item.cantidad);
+      const pctTotal = Math.min(100, pctIndividual + pctCombinado);
+      const subtotal = item.precioUnitario * item.cantidad * (1 - pctTotal / 100);
+      const precioUnitFinal = subtotal / item.cantidad;
+      total += subtotal;
+
+      const varTxt = item.variante ? ` (${item.variante})` : '';
+      const offTxt = pctTotal > 0 ? ` — ${pctTotal}% off` : '';
+      texto += `${i + 1}) ${formatoNombre(item.nombre)}${varTxt} x${item.cantidad}${offTxt} — ${formatoPesos(subtotal)} (${formatoPesos(precioUnitFinal)} c/u)\n`;
+    });
+    if (pctCombinado > 0){
+      texto += `\n🎉 Incluye ${pctCombinado}% OFF combinado por cantidad total del pedido\n`;
+    }
+    texto += `\n*Total: ${formatoPesos(total)}*\n\n`;
+    texto += `${obtenerTextoPrioridad()}\n\n`;
+    texto += `Confirmo este pedido según el presupuesto calculado. 🙌`;
+
+    const url = `https://wa.me/${CONFIG.telefono}?text=${encodeURIComponent(texto)}`;
+    window.open(url, '_blank');
+  });
+
+  /* ================================================
+     Carga opcional de productos desde Google Sheets
+     ================================================ */
+  function parseCSV(texto){
+    const filas = [];
+    let fila = [], campo = '', entreComillas = false;
+    for (let i = 0; i < texto.length; i++){
+      const c = texto[i];
+      if (entreComillas){
+        if (c === '"'){
+          if (texto[i + 1] === '"'){ campo += '"'; i++; }
+          else entreComillas = false;
+        } else campo += c;
+      } else {
+        if (c === '"') entreComillas = true;
+        else if (c === ','){ fila.push(campo); campo = ''; }
+        else if (c === '\n' || c === '\r'){
+          if (c === '\r' && texto[i + 1] === '\n') i++;
+          fila.push(campo); campo = '';
+          if (fila.length > 1 || fila[0] !== '') filas.push(fila);
+          fila = [];
+        } else campo += c;
+      }
+    }
+    if (campo !== '' || fila.length){ fila.push(campo); filas.push(fila); }
+    return filas;
+  }
+
+  function parseDescuentoSheet(str){
+    if (!str || !str.trim()) return [{ desde: 1, hasta: 9999, porcentaje: 0 }];
+    return str.split('|').map(parte => {
+      const [rango, pct] = parte.split(':');
+      const [desde, hasta] = rango.split('-').map(Number);
+      return { desde, hasta, porcentaje: Number(pct) || 0 };
+    });
+  }
+
+  function slugify(nombre, idx){
+    return nombre.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40) + '-' + idx;
+  }
+
+  async function cargarProductosDesdeSheet(url){
+    const resp = await fetch(url, { cache: 'no-store' });
+    if (!resp.ok) throw new Error('No se pudo leer la hoja');
+    const texto = await resp.text();
+    const filas = parseCSV(texto);
+
+    const idxHeader = filas.findIndex(f => (f[0] || '').trim().toUpperCase() === 'BODEGA');
+    if (idxHeader === -1) throw new Error('No se encontró la fila de encabezados (BODEGA en columna A)');
+
+    const productos = filas.slice(idxHeader + 1)
+      .filter(f => f.some(c => (c || '').trim() !== ''))
+      .map((f, i) => {
+        const bodega = (f[0] || '').trim();
+        const nombre = (f[1] || '').trim();
+        const precio = Number((f[6] || '0').replace(/[^\d.-]/g, '')) || 0;
+        const descuento = (f[7] || '').trim();
+        return {
+          id: slugify(nombre || 'producto', i),
+          nombre,
+          bodega,
+          variantes: [],
+          precio,
+          descuentos: parseDescuentoSheet(descuento)
+        };
+      })
+      .filter(p => p.nombre);
+
+    if (!productos.length) throw new Error('No se encontraron productos en la hoja');
+    return productos;
+  }
+
+  function mostrarErrorConexion(){
+    document.getElementById('pantallaCarga').style.display = 'none';
+    document.getElementById('errorWhatsappBtn').href = `https://wa.me/${CONFIG.telefono}`;
+    document.getElementById('errorConexion').style.display = 'block';
+  }
+
+  async function iniciar(){
+    if (!CONFIG.sheetUrl || !CONFIG.sheetUrl.trim()){
+      mostrarErrorConexion();
+      return;
+    }
+    try {
+      const productosSheet = await cargarProductosDesdeSheet(CONFIG.sheetUrl.trim());
+      CONFIG.productos = productosSheet;
+    } catch (err) {
+      console.warn('No se pudo cargar el catálogo desde la hoja:', err);
+      mostrarErrorConexion();
+      return;
+    }
+    productoActivo = CONFIG.productos[0];
+    varianteActiva = productoActivo.variantes[0] || null;
+    poblarFiltroBodega();
+    renderProductos();
+    renderVariantes();
+    renderDescHint();
+    renderTicket();
+    document.getElementById('pantallaCarga').style.display = 'none';
+    document.getElementById('appContent').style.display = 'block';
+  }
+
+  document.getElementById('compartirBtn').addEventListener('click', () => {
+    const mensaje = `🍷 Te paso el presupuestador de *${CONFIG.negocio}*: elegí, combiná y aprovechá los descuentos para armar tu pedido en minutos.\n\n${window.location.href}`;
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
+  });
+
+  /* ================================
+     Instalar como app (PWA)
+     ================================ */
+  const $instalarBtn = document.getElementById('instalarBtn');
+  const $instalarAviso = document.getElementById('instalarAviso');
+  let promptDeInstalacion = null;
+
+  const esIOS = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
+  const yaInstalada = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+  if (!yaInstalada){
+    if (esIOS){
+      // iOS/Safari no tiene instalación con un clic: mostramos las instrucciones manuales
+      $instalarBtn.style.display = 'inline-flex';
+      $instalarBtn.addEventListener('click', () => {
+        $instalarAviso.style.display = $instalarAviso.style.display === 'block' ? 'none' : 'block';
+        $instalarAviso.textContent = '📲 Tocá el botón "Compartir" (el cuadrado con la flecha ↑) en Safari, y elegí "Agregar a pantalla de inicio".';
+      });
+    } else {
+      // Chrome/Android: esperamos el evento del navegador para ofrecer instalación nativa
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        promptDeInstalacion = e;
+        $instalarBtn.style.display = 'inline-flex';
+      });
+
+      $instalarBtn.addEventListener('click', async () => {
+        if (!promptDeInstalacion) return;
+        promptDeInstalacion.prompt();
+        await promptDeInstalacion.userChoice;
+        promptDeInstalacion = null;
+        $instalarBtn.style.display = 'none';
+      });
+
+      window.addEventListener('appinstalled', () => {
+        $instalarBtn.style.display = 'none';
+      });
+    }
+  }
+
+  if ('serviceWorker' in navigator){
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch((err) => console.warn('No se pudo registrar el service worker:', err));
+    });
+  }
+
+  iniciar();
+</script>
+
+</body>
+</html>
