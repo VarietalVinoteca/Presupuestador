@@ -31,11 +31,15 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  // Solo manejamos pedidos GET; los envíos (POST) pasan directo
+  if (event.request.method !== 'GET') return;
+
   const url = event.request.url;
 
-  // Nunca cachear el pedido a Google Sheets: siempre tiene que ir a la red
-  // para traer precios y stock actualizados.
-  if (url.includes('docs.google.com') || url.includes('googleusercontent.com')) {
+  // Nunca cachear Google Sheets ni el registro de pedidos: siempre a la red.
+  if (url.includes('docs.google.com') ||
+      url.includes('googleusercontent.com') ||
+      url.includes('script.google.com')) {
     return;
   }
 
